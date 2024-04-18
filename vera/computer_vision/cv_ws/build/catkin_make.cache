@@ -1,0 +1,2 @@
+detect_image
+-DCATKIN_DEVEL_PREFIX=/home/v/computer_vision/cv_ws/devel -DCMAKE_INSTALL_PREFIX=/home/v/computer_vision/cv_ws/install -G Unix Makefiles
