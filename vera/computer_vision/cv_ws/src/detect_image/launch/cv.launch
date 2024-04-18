@@ -1,0 +1,9 @@
+<launch>
+
+    <node name="detect_image"
+          pkg="detect_image"
+          type="detect_image.py"
+          output="screen">
+        <param name="model_file" value="$(find detect_image)/model/zane/train6/weights/best.pt" />
+    </node>
+</launch>

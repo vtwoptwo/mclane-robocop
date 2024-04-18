@@ -1,0 +1,8 @@
+prefix=/home/v/computer_vision/cv_ws/devel
+
+Name: detect_image
+Description: Description of detect_image
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 
