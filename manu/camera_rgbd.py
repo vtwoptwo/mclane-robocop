@@ -42,7 +42,9 @@ class Follower:
             self.twist.linear.x = 0.1
             self.twist.angular.z = ang_vel
             print(ang_vel)
-            if ang_vel > 0:
+            left_pixels = np.sum(mask[search_bot:, :w//2] > 0)
+            right_pixels = np.sum(mask[search_bot:, w//2:] > 0)
+            if left_pixels > right_pixels:
                 self.turn_direction = 1
             else:
                 self.turn_direction = -1
