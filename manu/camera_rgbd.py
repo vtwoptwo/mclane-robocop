@@ -55,9 +55,10 @@ class Follower:
             self.twist.angular.z = 0.3 * self.turn_direction  # Turn left or right
             self.cmd_vel_pub.publish(self.twist)
 
-rospy.init_node('follower')
-follower = Follower()
-rospy.spin()
+if __name__ == '__main__':
+    rospy.init_node('follower')
+    follower = Follower()
+    rospy.spin()
 
 
 # left >0
