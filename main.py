@@ -9,7 +9,7 @@ from sensor_msgs.msg import Image
 rospy.init_node("main")
 
 follower = follow.Follower()
-obs_avoider = lidar.ObstacleAvoider() # juan: will handle continue moving in the main, should remove it from the callback
+obs_avoider = lidar.ObstacleAvoider() # juan: will handle continue moving in the main, should remove continue moving from the callback
 img_processor = detect_img.ImageProcessor(
     "vera/computer_vision/cv_ws/src/detect_image/model/zane/train6/weights/best.pt"
 )  # juan: can be set at the launch file
@@ -21,17 +21,17 @@ while not rospy.is_shutdown():
     if obs_avoider.obs_detected and not img_processor.img_detected:
         follower.image_sub.unregister() # so follower and obs_avoider won't fight for control
         while obs_avoider.obs_detected:
-            rospy.loginfo("Avoid obstacle...")
+            print("Avoid obstacle...")
         follower.image_sub = rospy.Subscriber(
             "/camera/color/image_raw", Image, follower.image_callback
         )
 
-    if img_processor.img_detected:
-        follower.image_sub.unregister()
-        while img_processor.img_detected:
-            rospy.loginfo("Process image...")
-        follower.image_sub = rospy.Subscriber(
-            "/camera/color/image_raw", Image, follower.image_callback
-        )
+    # if img_processor.img_detected:
+    #     follower.image_sub.unregister()
+    #     while img_processor.img_detected:
+    #         rospy.loginfo("Process image...")
+    #     follower.image_sub = rospy.Subscriber(
+    #         "/camera/color/image_raw", Image, follower.image_callback
+    #     )
 
     # rospy.sleep(0.1)

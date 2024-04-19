@@ -8,12 +8,9 @@ from ultralytics import YOLO
 
 class ImageProcessor:
     def __init__(self, model_path):
-        self.node_name = "detect_image"
-        rospy.init_node(self.node_name)
-        
         self.model = YOLO(model_path)
         self.subscriber = rospy.Subscriber("/camera/color/image_raw", Image, self.callback, queue_size=1)
-       	self.publisher = rospy.Publisher("/camera/boxes", Image, queue_size=1)
+        self.publisher = rospy.Publisher("/camera/boxes", Image, queue_size=1)
         self.bridge = CvBridge()
         self.img_detected = False # juan: flag for main to stop the robot
 
@@ -31,7 +28,8 @@ class ImageProcessor:
             annotated_frame = result.plot()   
             probs = result.boxes.conf #example output if something is detected:tensor([0.9451, 0.9358])
             cl = result.boxes.cls # tensor([4., 4.])
-            # if the tensors of probs and cls exist
+            # if the tensors of probs and cl exist
+            # 
             
 
             if ...: # juan: if detect fruit
@@ -56,6 +54,8 @@ class ImageProcessor:
 if __name__ == '__main__':
     model_path = rospy.get_param('detect_image/model_file','')
     print(model_path)
+    node_name = "detect_image"
+    rospy.init_node(node_name)
     image_processor = ImageProcessor(model_path)
     rospy.on_shutdown(image_processor.on_shutdown)
 
