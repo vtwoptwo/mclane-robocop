@@ -1,2 +1,0 @@
-import follow_line.camera_rgbd as fl
-import detect_obstacle

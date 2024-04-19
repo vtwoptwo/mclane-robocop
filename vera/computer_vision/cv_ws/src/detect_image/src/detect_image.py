@@ -15,6 +15,7 @@ class ImageProcessor:
         self.subscriber = rospy.Subscriber("/camera/color/image_raw", Image, self.callback, queue_size=1)
        	self.publisher = rospy.Publisher("/camera/boxes", Image, queue_size=1)
         self.bridge = CvBridge()
+        self.img_detected = False # juan: flag for main to stop the robot
 
         rospy.spin()
 
@@ -32,6 +33,12 @@ class ImageProcessor:
             cl = result.boxes.cls # tensor([4., 4.])
             # if the tensors of probs and cls exist
             
+
+            if ...: # juan: if detect fruit
+                self.img_detected = True # juan: flag for main to stop the robot
+                ... # juan: process the image
+                self.img_detected = False
+                
                     
             try:
                 ros_image = self.bridge.cv2_to_imgmsg(annotated_frame, "bgr8")

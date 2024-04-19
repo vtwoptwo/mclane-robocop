@@ -4,6 +4,12 @@ import rospy
 from sensor_msgs.msg import LaserScan
 from geometry_msgs.msg import Twist
 
+
+'''
+juan: I made a class from this in my folder
+'''
+
+
 # Global variable to hold the movement command
 move_cmd = Twist()
 
