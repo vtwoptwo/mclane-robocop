@@ -19,7 +19,7 @@ rospy.on_shutdown(img_processor.on_shutdown)
 while not rospy.is_shutdown():
 
     if obs_avoider.obs_detected and not img_processor.img_detected:
-        follower.image_sub.unregister()
+        follower.image_sub.unregister() # so follower and obs_avoider won't fight for control
         while obs_avoider.obs_detected:
             rospy.loginfo("Avoid obstacle...")
         follower.image_sub = rospy.Subscriber(
