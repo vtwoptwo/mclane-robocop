@@ -37,19 +37,19 @@ class RobotController:
         self.ir_detected = False
 
     def ir_callback(self, msg):
-        # Assuming a minimum detection range that indicates an obstacle
-        if msg.range < 0.05:  # 20 cm as an example threshold
+        
+        if msg.range < 0.05: 
             self.ir_detected = True
             self.backup_and_reset()
 
     def backup_and_reset(self):
-        # Move backward for 2 seconds
+
         self.twist.linear.x = -0.1
         self.twist.angular.z = 0
         self.cmd_vel_pub.publish(self.twist)
-        rospy.sleep(2)  # Robot moves backward for 2 seconds
+        rospy.sleep(2)  
 
-        # Stop and clear the IR detection flag
+      
         self.twist.linear.x = 0
         self.cmd_vel_pub.publish(self.twist)
         self.ir_detected = False
@@ -61,10 +61,10 @@ class RobotController:
             print(e)
             return
 
-        # Line following logic
+
         self.process_line_following(cv_image)
 
-        # Object detection logic
+    
         results = self.model.predict(cv_image)
         self.process_object_detection(results, cv_image)
 
@@ -75,11 +75,10 @@ class RobotController:
             probs = probs.cpu()
             cl = cl.cpu()
 
-            # Convert to numpy array
+
             probs_numpy = probs.numpy()
             cl_numpy = cl.numpy()
 
-            # Check if the array is not empty and all elements are greater than 0.9
             if probs_numpy.size > 0 and np.all(probs_numpy > 0.9):
                 print("All probabilities are greater than 0.9")
                 self.img_detected = True
@@ -108,10 +107,9 @@ class RobotController:
             error = cx - center
             angular_z = np.clip(-0.01 * error, -0.3, 0.3)
         else:
-            # Default turn if no line is detected
+           
             angular_z = 0.3 * self.turn_direction
 
-        # Only modify linear.x if no obstacle is detected
         if not self.obs_detected:
             self.twist.linear.x = 0.1
         self.twist.angular.z = angular_z
@@ -122,26 +120,22 @@ class RobotController:
         ranges = np.array(msg.ranges)
         threshold_distance = 0.2
 
-        # Find if there are any close obstacles within the threshold
         if np.any(ranges < threshold_distance):
             self.obs_detected = True
-            # Find the minimum range and its index
             min_index = np.argmin(ranges)
             n_ranges = len(ranges)
 
-            # Determine direction: if the obstacle is in the first half of ranges, turn right; else, turn left
             if min_index < n_ranges / 2:
-                # Obstacle on the left side
-                self.twist.angular.z = -0.3  # Smaller turn rate to the right
+=                self.twist.angular.z = -0.3  
             else:
-                # Obstacle on the right side
-                self.twist.angular.z = 0.3  # Smaller turn rate to the left
+         
+                self.twist.angular.z = 0.3 
             self.cmd_vel_pub.publish(self.twist)
         else:
             self.obs_detected = False
 
     def run(self):
-        # Set the loop rate (in Hz, i.e., times per second)
+
         rate = rospy.Rate(10)  
         while not rospy.is_shutdown():
             rate.sleep()
