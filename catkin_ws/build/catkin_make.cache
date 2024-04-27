@@ -1,0 +1,2 @@
+mclane_robocop
+-DCATKIN_DEVEL_PREFIX=/home/v/mclane-robocop/catkin_ws/devel -DCMAKE_INSTALL_PREFIX=/home/v/mclane-robocop/catkin_ws/install -G Unix Makefiles

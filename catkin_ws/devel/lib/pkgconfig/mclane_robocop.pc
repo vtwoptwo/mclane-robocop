@@ -1,0 +1,8 @@
+prefix=/home/v/mclane-robocop/catkin_ws/devel
+
+Name: mclane_robocop
+Description: Description of mclane_robocop
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 
